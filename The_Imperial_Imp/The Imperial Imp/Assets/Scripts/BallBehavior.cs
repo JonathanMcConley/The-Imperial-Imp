@@ -37,15 +37,22 @@ public class BallBehavior : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("Ball")); 
+        if (collision.gameObject.CompareTag("Wall")) 
         {
             isHomingPlayer = true;
-            Debug.Log("I'm homing you now");
+        }
+        if (collision.gameObject.CompareTag("Floor")) 
+        {
+            isHomingPlayer = true;
+        }
+        if (collision.gameObject.CompareTag("Ball")) 
+        {
+            isHomingPlayer = true;
         }
         if (collision.gameObject.CompareTag("Player")) 
         {
-            manager.increaseScoreBy(50);
             Destroy(gameObject);
+            manager.increaseScoreBy(50);
         }
     }
 

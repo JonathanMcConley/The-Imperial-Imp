@@ -18,6 +18,7 @@ public class Manager : MonoBehaviour
     private bool hasWon;
     private bool gameHasEnded;
     public string currentSceneName;
+    public PlayerBehavior player;
     // Start is called before the first frame update
     void Start()
     {
@@ -95,7 +96,7 @@ public class Manager : MonoBehaviour
 
     public void increaseScoreBy(int scoreIncrease)
     {
-        if (!gameHasEnded) 
+        if (!gameHasEnded && player.getIsInFunZone()) 
         {
             score += scoreIncrease;
         }

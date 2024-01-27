@@ -15,13 +15,13 @@ public class PlayerBehavior : MonoBehaviour
     public float coyoteTime;
     public GameObject throwingBall;
     public Vector3 ballSpawn;
-    
-    private int score;
+    private bool isInFunZone;
     // Start is called before the first frame update
     void Start()
     {
         currentMovementSpeed = baseMovementSpeed;
         jumps = 2;
+        isInFunZone = false;
     }
 
     // Update is called once per frame
@@ -90,6 +90,20 @@ public class PlayerBehavior : MonoBehaviour
             StartCoroutine("coyoteTimeCoroutine");
         }
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("FunZone")) 
+        {
+            isInFunZone = true;
+        }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("FunZone"))
+        {
+            isInFunZone = false;
+        }
+    }
 
     IEnumerator coyoteTimeCoroutine() 
     {
@@ -99,4 +113,10 @@ public class PlayerBehavior : MonoBehaviour
             jumps--;
         }
     }
+
+    public bool getIsInFunZone()
+    {
+        return isInFunZone;
+    }
 }
+
