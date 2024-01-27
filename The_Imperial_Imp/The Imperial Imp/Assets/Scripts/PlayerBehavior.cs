@@ -15,6 +15,8 @@ public class PlayerBehavior : MonoBehaviour
     public float coyoteTime;
     public GameObject throwingBall;
     public Vector3 ballSpawn;
+    
+    private int score;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +27,7 @@ public class PlayerBehavior : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         //W moves forward, S moves backward
         verticalInput = Input.GetAxis("Vertical");
         rb.AddForce(verticalInput * Vector3.right * currentMovementSpeed, ForceMode.Force);
@@ -63,10 +66,11 @@ public class PlayerBehavior : MonoBehaviour
             jumps--;
             hasJumped = true;
         }
-        //Shift to throw a ball
+        //Shift to throw held object
+        //This will change later
         if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
         {
-            ballSpawn = new Vector3(transform.position.x + 1.3f, transform.position.y, transform.position.z);
+            ballSpawn = new Vector3(transform.position.x + 1.5f, transform.position.y, transform.position.z);
             Instantiate(throwingBall, ballSpawn, Quaternion.identity);
         }
     }

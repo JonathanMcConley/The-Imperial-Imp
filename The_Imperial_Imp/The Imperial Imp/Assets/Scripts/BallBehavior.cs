@@ -9,11 +9,13 @@ public class BallBehavior : MonoBehaviour
     public float speed;
     public Rigidbody rb;
     private Vector3 direction;
+    private Manager manager;
     // Start is called before the first frame update
     void Start()
     {
         isHomingPlayer = false;
         player = GameObject.FindGameObjectWithTag("Player");
+        manager = (Manager)FindObjectOfType(typeof(Manager));
     }
 
     // Update is called once per frame
@@ -35,13 +37,14 @@ public class BallBehavior : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Wall")) 
+        if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Floor") || collision.gameObject.CompareTag("Ball")); 
         {
             isHomingPlayer = true;
             Debug.Log("I'm homing you now");
         }
         if (collision.gameObject.CompareTag("Player")) 
         {
+            manager.increaseScoreBy(50);
             Destroy(gameObject);
         }
     }
