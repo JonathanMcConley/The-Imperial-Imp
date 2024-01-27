@@ -11,6 +11,10 @@ public class PlayerBehavior : MonoBehaviour
     public Rigidbody rb;
     public float jumpHeight;
     private int jumps;
+    private bool hasJumped;
+    public float coyoteTime;
+    public GameObject throwingBall;
+    public Vector3 ballSpawn;
     // Start is called before the first frame update
     void Start()
     {
@@ -54,15 +58,41 @@ public class PlayerBehavior : MonoBehaviour
         //Space to Jump
         if (Input.GetKeyDown(KeyCode.Space) && jumps > 0)
         {
+            rb.velocity = new Vector3(rb.velocity.x, 0.0f, rb.velocity.z);
             rb.AddForce(Vector3.up * jumpHeight, ForceMode.Impulse);
             jumps--;
+            hasJumped = true;
+        }
+        //Shift to throw a ball
+        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
+        {
+            ballSpawn = new Vector3(transform.position.x + 1.1f, transform.position.y, transform.position.z);
+            Instantiate(throwingBall, ballSpawn, Quaternion.identity);
         }
     }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Floor")) 
         {
+            hasJumped = false;
             jumps = 2;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Floor")&&!hasJumped) 
+        {
+            StartCoroutine("coyoteTimeCoroutine");
+        }
+    }
+
+    IEnumerator coyoteTimeCoroutine() 
+    {
+        yield return new WaitForSeconds(coyoteTime);
+        if (!hasJumped)
+        {
+            jumps--;
         }
     }
 }
