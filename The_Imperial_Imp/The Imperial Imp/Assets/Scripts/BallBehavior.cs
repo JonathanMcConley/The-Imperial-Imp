@@ -5,35 +5,23 @@ using UnityEngine;
 public class BallBehavior : MonoBehaviour
 {
     private bool isHomingPlayer;
-    private bool hasTurnedAround;
-    public Transform player;
+    private GameObject player;
     public float speed;
     public Rigidbody rb;
+    private Vector3 direction;
     // Start is called before the first frame update
     void Start()
     {
         isHomingPlayer = false;
-        hasTurnedAround = false;
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isHomingPlayer) 
+       if(isHomingPlayer) 
         {
-            if (!hasTurnedAround)
-            {
-                rb.AddForce(Vector3.MoveTowards(transform.position, player.transform.position, speed), ForceMode.Acceleration);
-                if (rb.velocity.magnitude > speed)
-                {
-                    rb.velocity = rb.velocity.normalized * speed;
-                }
-            }
-            else
-            {
-                transform.position = new Vector3 (transform.position.x - (speed * Time.deltaTime), transform.position.y, transform.position.z);
-                hasTurnedAround = true;
-            }
+            home();
         }
         else 
         {
@@ -56,5 +44,11 @@ public class BallBehavior : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    private void home() 
+    {
+        direction = (player.transform.position-transform.position).normalized;
+        transform.Translate(direction * speed * Time.deltaTime);
     }
 }

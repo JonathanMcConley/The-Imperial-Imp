@@ -66,7 +66,7 @@ public class PlayerBehavior : MonoBehaviour
         //Shift to throw a ball
         if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
         {
-            ballSpawn = new Vector3(transform.position.x + 1.1f, transform.position.y, transform.position.z);
+            ballSpawn = new Vector3(transform.position.x + 1.3f, transform.position.y, transform.position.z);
             Instantiate(throwingBall, ballSpawn, Quaternion.identity);
         }
     }
